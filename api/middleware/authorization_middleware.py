@@ -11,26 +11,32 @@ def get_user(userinfo):
     return user
 
 class AuthorizationMiddleware:
+    public_allowed_urls = [
+        'auth',
+        'public'
+    ]
+    
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        if hasattr(request, 'path') and not 'auth' in request.path:
-            if 'token' not in request.COOKIES:
-                response = Response({
-                    'message':'Not logged in'
-                }, status=status.HTTP_401_UNAUTHORIZED)
+        if hasattr(request, 'path') and 'api' in request.path:
+            if request.path.split('/')[2] not in self.public_allowed_urls:
+                if 'token' not in request.COOKIES:
+                    response = Response({
+                        'message':'Not logged in'
+                    }, status=status.HTTP_401_UNAUTHORIZED)
 
-                response.accepted_renderer = JSONRenderer()
-                response.accepted_media_type = "application/json"
-                response.renderer_context = {}
-                response.render()
+                    response.accepted_renderer = JSONRenderer()
+                    response.accepted_media_type = "application/json"
+                    response.renderer_context = {}
+                    response.render()
 
-                return response
+                    return response
             
-            token = request.COOKIES['token']
-            decoded = jwt.decode(token, options={"verify_signature": False})
-            request.user = get_user(decoded)
+                token = request.COOKIES['token']
+                decoded = jwt.decode(token, options={"verify_signature": False})
+                request.user = get_user(decoded)
 
         response = self.get_response(request)
         return response

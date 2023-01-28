@@ -26,7 +26,6 @@ class signup_user(generics.CreateAPIView):
     serializer_class = serializers_user.signup_user_serializer
     
     def post(self, request):
-        serializers_user.models.User.objects.all().delete()
         instance = self.create(request)
         
         user_and_token = get_authenticated_user_and_token(instance.data)
