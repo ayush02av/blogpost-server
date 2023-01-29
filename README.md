@@ -5,8 +5,3 @@
 #### To Do:
 
 - reset password
-- update blog
-- delete blog
-- post review
-- update review
-- delete review

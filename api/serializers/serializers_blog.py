@@ -9,12 +9,8 @@ class blog_serializer(serializers.ModelSerializer):
             'id',
             'title',
             'content',
-            'rating',
             'author',
         )
-        extra_kwargs = {
-            'rating': {'read_only': True}
-        }
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

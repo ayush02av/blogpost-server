@@ -6,11 +6,5 @@ class Blog(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     
-    rating = models.IntegerField(default=0)
-
-class Review(models.Model):
-    blog = models.ForeignKey(to=Blog, null=False, blank=False, on_delete=models.CASCADE, related_name="review_blog")
-    reviewer = models.ForeignKey(to=User, null=False, blank=False, on_delete=models.CASCADE, related_name="review_reviewer")
-
-    rating = models.IntegerField()
-    review = models.TextField()
+    def __str__(self) -> str:
+        return f'\'{self.title}\' by {self.author.username}'
