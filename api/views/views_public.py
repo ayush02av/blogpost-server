@@ -7,5 +7,5 @@ class blogs(APIView):
     def get(self, request):
         return Response({
             'message': 'Blogs',
-            'user': serializers_blog.blog_serializer(serializers_blog.models.Blog.objects.all(), many = True).data
+            'blogs': serializers_blog.blog_serializer(serializers_blog.models.Blog.objects.all(), many = True).data
         }, status=status.HTTP_200_OK)

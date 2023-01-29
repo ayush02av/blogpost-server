@@ -32,9 +32,9 @@ class signup_user(generics.CreateAPIView):
         
         response = Response({
                 'message': 'New user created',
-                'user': user_and_token['user']
+                'user': user_and_token['user'],
+                'token': user_and_token['token']
             }, status=status.HTTP_201_CREATED)
-        response.set_cookie('token', user_and_token['token'])
 
         return response
 
@@ -55,9 +55,8 @@ class login_user(APIView):
         
         response = Response({
                 'message': 'Logged in user',
-                'user': user_and_token['user']
+                'user': user_and_token['user'],
+                'token': user_and_token['token']
             }, status=status.HTTP_200_OK)
-
-        response.set_cookie('token', user_and_token['token'])
 
         return response

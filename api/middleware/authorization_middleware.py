@@ -22,7 +22,7 @@ class AuthorizationMiddleware:
     def __call__(self, request):
         if hasattr(request, 'path') and 'api' in request.path:
             if request.path.split('/')[2] not in self.public_allowed_urls:
-                if 'token' not in request.COOKIES:
+                if 'Authorization' not in request.headers.keys():
                     response = Response({
                         'message':'Not logged in'
                     }, status=status.HTTP_401_UNAUTHORIZED)
@@ -34,7 +34,7 @@ class AuthorizationMiddleware:
 
                     return response
             
-                token = request.COOKIES['token']
+                token = request.headers['Authorization']
                 decoded = jwt.decode(token, options={"verify_signature": False})
                 request.user = get_user(decoded)
 
