@@ -23,7 +23,7 @@ class blogs(APIView):
         }, status=status.HTTP_200_OK)
 
     def post(self, request):
-        data = request.data.dict()
+        data = request.data
         data['author'] = request.user.id
         
         serializer = self.serializer_class(data = data)

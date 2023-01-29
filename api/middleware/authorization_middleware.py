@@ -20,6 +20,8 @@ class AuthorizationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        setattr(request, '_dont_enforce_csrf_checks', True)
+        
         if hasattr(request, 'path') and 'api' in request.path:
             if request.path.split('/')[2] not in self.public_allowed_urls:
                 if 'Authorization' not in request.headers.keys():
