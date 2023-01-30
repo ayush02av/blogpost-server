@@ -50,14 +50,12 @@ class blog(APIView):
 
             if blog.author != request.user:
                 return Response({
-                    'message': 'Error',
-                    'error': 'Blog access forbidden'
+                    'message': 'Blog access forbidden'
                 }, status=status.HTTP_403_FORBIDDEN)
             
         except Exception as exception:
             return Response({
-                'message': 'Error',
-                'error': exception.__str__()
+                'message': exception.__str__()
             }, status=status.HTTP_404_NOT_FOUND)
         
         self.blog = blog
@@ -78,7 +76,7 @@ class blog(APIView):
         if blog != True:
             return blog
         
-        data = request.data.dict()
+        data = request.data
         data['id'] = self.blog.id
         data['author'] = request.user.id
 
