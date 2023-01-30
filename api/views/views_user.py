@@ -104,3 +104,26 @@ class blog(APIView):
         return Response({
             'message': 'Blog deleted'
         }, status=status.HTTP_204_NO_CONTENT)
+
+class reset_password(APIView):
+    serializer_class = serializers_user.user_reset_password_serializer
+    model = serializers_user.models.User
+
+    def put(self, request):
+        object = request.user
+        serializer = self.serializer_class(data = request.data)
+
+        if serializer.is_valid():
+            if not object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+
+            object.set_password(serializer.data.get("new_password"))
+            object.save()
+
+            return Response({
+                'message': 'Password reset done'
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+                'message': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)

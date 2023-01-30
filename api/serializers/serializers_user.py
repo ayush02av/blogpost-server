@@ -60,3 +60,14 @@ class login_user_serializer(serializers.ModelSerializer):
 		extra_kwargs = {
             'password': {'write_only': True}
         }
+
+class user_reset_password_serializer(serializers.Serializer):
+	old_password = serializers.CharField(required=True)
+	new_password = serializers.CharField(required=True)
+
+	class Meta:
+		model = models.User
+		fields = ()
+		extra_kwargs = {
+            'password': {'write_only': True}
+        }
