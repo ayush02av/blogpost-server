@@ -34,7 +34,7 @@ JWT_SECRET = os.environ.get('JWT_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'blogpost-api.up.railway.app']
 
 
 # Application definition
